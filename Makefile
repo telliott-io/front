@@ -2,7 +2,7 @@
 
 clean:
 	rm -rf build
-	
+
 build:
 	GOOS=linux GOARCH=amd64 go build -o build/front ./cmd/front
 	- rm -rf build/public
@@ -17,5 +17,7 @@ push: build
 deploy:
 	kubectl apply -f deployment.yaml
 	kubectl apply -f ingress.yaml
+	# Trigger a rolling update
+	kubectl rollout restart deployment/front
 
 all: clean push deploy
