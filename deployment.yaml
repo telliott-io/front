@@ -17,6 +17,7 @@ spec:
       containers:
       - name: front
         image: telliottio/front:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
 ---
