@@ -1,0 +1,14 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: front
+spec:
+  rules:
+  - host: front.telliott.io
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: front
+          servicePort: http
