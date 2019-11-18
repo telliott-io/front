@@ -1,16 +1,15 @@
 package main
 
 import (
-	"fmt"
-	"html"
 	"log"
 	"net/http"
 )
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Hello, %q", html.EscapeString(r.URL.Path))
-	})
+	fs := http.FileServer(http.Dir("public/styles/"))
+	http.Handle("/styles/", http.StripPrefix("/styles/", fs))
+	views := http.FileServer(http.Dir("views/"))
+	http.Handle("/", views)
 
 	log.Fatal(http.ListenAndServe(":80", nil))
 }
