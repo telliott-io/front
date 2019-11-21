@@ -12,55 +12,18 @@
     </head>
     <body>
         <ul id="grid" class="clear">
-            <li>
-                <div class="hexagon">
-                    <div class="content">
-                        <h3>One</h3>
-                        <p>Row B</p>
+            {{range .Items}}
+                <li>
+                    <div class="hexagon">
+                        <div class="content">
+                            <h3>{{ .Name }}</h3>
+                            <p>{{ .Description }}</p>
+                        </div>
                     </div>
-                </div>
-            </li>
-            <li>
-                <div class="hexagon">
-                    <div class="content">
-                        <p>Two</p>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="hexagon">
-                    <div class="content">
-                        <p>Three</p>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="hexagon"></div>
-            </li>
-            <li>
-                <div class="hexagon"></div>
-            </li>
-            <li>
-                <div class="hexagon"></div>
-            </li>
-            <li>
-                <div class="hexagon"></div>
-            </li>
-            <li>
-                <div class="hexagon"></div>
-            </li>
-            <li>
-                <div class="hexagon"></div>
-            </li>
-            <li>
-                <div class="hexagon"></div>
-            </li>
-            <li>
-                <div class="hexagon"></div>
-            </li>
-            <li>
-                <div class="hexagon"></div>
-            </li>
+                </li>
+            {{else}}
+                <div><strong>no rows</strong></div>
+            {{end}}
         </ul>
     </body>
 </html>

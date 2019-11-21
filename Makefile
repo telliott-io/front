@@ -6,7 +6,7 @@ clean:
 build:
 	GOOS=linux GOARCH=amd64 go build -o build/front ./cmd/front
 	- rm -rf build/public
-	- rm -rf build/styles
+	- rm -rf build/views
 	cp -r public build/public
 	cp -r views build/views
 	docker build -t telliottio/front:latest ./build -f Dockerfile
