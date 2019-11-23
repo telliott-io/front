@@ -23,7 +23,3 @@ deploy:
 	kubectl rollout restart deployment/front
 
 all: clean push deploy
-
-minikube:
-	# Ensure RBAC is enabled for testing
-	minikube start --extra-config=apiserver.Authorization.Mode=RBAC --vm-driver=virtualbox
