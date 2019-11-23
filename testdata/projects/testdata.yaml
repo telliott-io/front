@@ -1,9 +1,4 @@
 apiVersion: v1
-kind: Namespace
-metadata:
-  name: projectlist
----
-apiVersion: v1
 data:
   name: Project
   description: A, B, C

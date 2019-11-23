@@ -15,9 +15,15 @@ push: build
 	docker push telliottio/front:latest
 
 deploy:
+	kubectl apply -f namespace.yaml
+	kubectl apply -f rbac.yaml
 	kubectl apply -f deployment.yaml
 	kubectl apply -f ingress.yaml
 	# Trigger a rolling update
 	kubectl rollout restart deployment/front
 
 all: clean push deploy
+
+minikube:
+	# Ensure RBAC is enabled for testing
+	minikube start --extra-config=apiserver.Authorization.Mode=RBAC --vm-driver=virtualbox

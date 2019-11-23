@@ -1,6 +1,8 @@
-# Deploy: tell Tilt what YAML to deploy
 k8s_yaml('deployment.yaml')
+k8s_yaml('namespace.yaml')
+k8s_yaml('rbac.yaml')
 
+# Provide some test data
 k8s_yaml('testdata/projects/testdata.yaml')
 
 custom_build(
