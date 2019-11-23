@@ -1,73 +1,37 @@
 package main
 
 import (
-	"html/template"
-	"io/ioutil"
 	"log"
 	"net/http"
+
+	"github.com/telliott-io/front/internal/server"
+	"github.com/telliott-io/front/pkg/projects/kubernetesloader"
 )
 
 func main() {
-	fs := http.FileServer(http.Dir("public/styles/"))
-	http.Handle("/styles/", http.StripPrefix("/styles/", fs))
 
-	http.HandleFunc("/", handleIndex)
+	setupStaticServing()
+	setupDynamicServing()
 
 	log.Println("Listening on port 80")
 	log.Fatal(http.ListenAndServe(":80", nil))
 }
 
-func handleIndex(w http.ResponseWriter, r *http.Request) {
-	tpl, err := ioutil.ReadFile("views/index.html")
+func setupStaticServing() {
+	fs := http.FileServer(http.Dir("public/styles/"))
+	http.Handle("/styles/", http.StripPrefix("/styles/", fs))
+}
+
+func setupDynamicServing() {
+	loader, err := kubernetesloader.New()
 	if err != nil {
-		// TODO: Handle file not existing
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		panic(err)
 	}
 
-	t, err := template.New("page").Parse(string(tpl))
+	s, err := server.New(loader)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		panic(err)
 	}
 
-	data := struct {
-		Items []struct {
-			Name        string
-			Description string
-		}
-	}{
-		Items: []struct {
-			Name        string
-			Description string
-		}{
-			{
-				Name:        "Item A",
-				Description: "Desc",
-			},
-			{
-				Name:        "Item B",
-				Description: "Desc",
-			},
-			{
-				Name:        "Item C",
-				Description: "Desc",
-			},
-			{
-				Name:        "Item D",
-				Description: "Desc",
-			},
-			{
-				Name:        "Item E",
-				Description: "Desc",
-			},
-			{
-				Name:        "Item F",
-				Description: "Desc",
-			},
-		},
-	}
-
-	err = t.Execute(w, data)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
+	http.Handle("/", s)
 }

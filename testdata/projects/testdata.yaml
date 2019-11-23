@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: projectlist
+---
+apiVersion: v1
+data:
+  name: Project
+  description: A, B, C
+kind: ConfigMap
+metadata:
+  name: sample1
+  namespace: projectlist
+---
+apiVersion: v1
+data:
+  name: Project 2
+  description: D, E, F
+kind: ConfigMap
+metadata:
+  name: sample2
+  namespace: projectlist
