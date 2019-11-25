@@ -1,4 +1,5 @@
 k8s_yaml('deployment.yaml')
+k8s_yaml('jaeger.yaml')
 k8s_yaml('namespace.yaml')
 k8s_yaml('rbac.yaml')
 
@@ -23,4 +24,5 @@ custom_build(
   tag="latest"
 )
 
-k8s_resource('front', port_forwards='8080:80')
+k8s_resource('front', port_forwards='8080:80', resource_deps=["jaeger"])
+k8s_resource('jaeger', port_forwards='16686')

@@ -1,7 +1,7 @@
 package kubernetesloader
 
 import (
-	"fmt"
+	"context"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
@@ -31,7 +31,7 @@ type loader struct {
 	clientset *kubernetes.Clientset
 }
 
-func (l *loader) GetProjects() ([]projects.Project, error) {
+func (l *loader) GetProjects(ctx context.Context) ([]projects.Project, error) {
 	configMaps, err := l.clientset.CoreV1().ConfigMaps("projectlist").List(metav1.ListOptions{})
 	if err != nil {
 		return nil, err
@@ -48,26 +48,4 @@ func (l *loader) GetProjects() ([]projects.Project, error) {
 	}
 
 	return out, nil
-}
-
-func HitK8s() {
-	// creates the in-cluster config
-	config, err := rest.InClusterConfig()
-	if err != nil {
-		panic(err.Error())
-	}
-	// creates the clientset
-	clientset, err := kubernetes.NewForConfig(config)
-	if err != nil {
-		panic(err.Error())
-	}
-	for {
-		configMaps, err := clientset.CoreV1().ConfigMaps("projectlist").List(metav1.ListOptions{})
-		if err != nil {
-			panic(err.Error())
-		}
-		for _, m := range configMaps.Items {
-			fmt.Printf("ConfigMap %q: %+v\n", m.Name, m.Data)
-		}
-	}
 }

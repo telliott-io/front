@@ -17,6 +17,11 @@ spec:
       serviceAccountName: projectlister
       containers:
       - name: front
+        # env:
+        #   - name: JAEGER_AGENT_HOST
+        #     value: "jaeger-agent"
+        #   - name: JAEGER_AGENT_PORT
+        #     value: "6831"
         image: telliottio/front:latest
         imagePullPolicy: Always
         ports:

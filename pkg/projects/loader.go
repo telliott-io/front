@@ -1,5 +1,7 @@
 package projects
 
+import "context"
+
 type Loader interface {
-	GetProjects() ([]Project, error)
+	GetProjects(ctx context.Context) ([]Project, error)
 }
