@@ -10,6 +10,7 @@ import (
 	"github.com/uber/jaeger-client-go/config"
 
 	"github.com/telliott-io/front/internal/server"
+	"github.com/telliott-io/front/pkg/observability"
 	"github.com/telliott-io/front/pkg/projects/cachingloader"
 	"github.com/telliott-io/front/pkg/projects/kubernetesloader"
 
@@ -53,7 +54,12 @@ func setupOpenTracing() (io.Closer, error) {
 		return nil, err
 	}
 
-	opentracing.SetGlobalTracer(tracer)
+	opentracing.SetGlobalTracer(
+		observability.NewMetricsTracer(
+			"front",
+			tracer,
+		),
+	)
 	return closer, nil
 }
 
