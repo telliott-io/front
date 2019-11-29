@@ -12,6 +12,8 @@ import (
 	"github.com/telliott-io/front/internal/server"
 	"github.com/telliott-io/front/pkg/projects/cachingloader"
 	"github.com/telliott-io/front/pkg/projects/kubernetesloader"
+
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func main() {
@@ -21,11 +23,18 @@ func main() {
 	}
 	defer closer.Close()
 
+	setupMetrics()
+
+	setupFaviconServing()
 	setupStaticServing()
 	setupDynamicServing()
 
 	log.Println("Listening on port 80")
 	log.Fatal(http.ListenAndServe(":80", nil))
+}
+
+func setupMetrics() {
+	http.Handle("/metrics", promhttp.Handler())
 }
 
 func setupOpenTracing() (io.Closer, error) {
@@ -51,6 +60,12 @@ func setupOpenTracing() (io.Closer, error) {
 func setupStaticServing() {
 	fs := http.FileServer(http.Dir("public/styles/"))
 	http.Handle("/styles/", http.StripPrefix("/styles/", fs))
+}
+
+func setupFaviconServing() {
+	http.HandleFunc("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {
+		http.Error(w, "not found", http.StatusNotFound)
+	})
 }
 
 func setupDynamicServing() {

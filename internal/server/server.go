@@ -6,6 +6,8 @@ import (
 	"net/http"
 
 	"github.com/opentracing/opentracing-go"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promauto"
 	"github.com/telliott-io/front/pkg/projects"
 )
 
@@ -21,9 +23,20 @@ type server struct {
 	loader projects.Loader
 }
 
+var (
+	indexServed = promauto.NewCounter(prometheus.CounterOpts{
+		Name: "front_index_served",
+		Help: "The total number index requests served",
+	})
+)
+
 func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	indexServed.Inc()
+
 	tracer := opentracing.GlobalTracer()
 	span := tracer.StartSpan("serve_index")
+
+	span.SetTag("path", r.URL.Path)
 
 	ctx := opentracing.ContextWithSpan(r.Context(), span)
 	defer span.Finish()
