@@ -25,5 +25,5 @@ def front(working_dir):
     tag="latest"
   )
 
-  k8s_resource('front', port_forwards='8080:80', resource_deps=["jaeger"])
-  k8s_resource('jaeger', port_forwards='16686')
+  k8s_resource('front', port_forwards='8080:80', resource_deps=["monitoring/jaeger"])
+  k8s_resource('jaeger', 'monitoring/jaeger', port_forwards='16686')
