@@ -7,6 +7,7 @@ import (
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 
+	"github.com/opentracing/opentracing-go"
 	"github.com/telliott-io/front/pkg/projects"
 )
 
@@ -32,6 +33,9 @@ type loader struct {
 }
 
 func (l *loader) GetProjects(ctx context.Context) ([]projects.Project, error) {
+	span, _ := opentracing.StartSpanFromContext(ctx, "kubernetesloader/get-projects")
+	defer span.Finish()
+
 	configMaps, err := l.clientset.CoreV1().ConfigMaps("projectlist").List(metav1.ListOptions{})
 	if err != nil {
 		return nil, err

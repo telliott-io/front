@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/opentracing/opentracing-go"
 	"github.com/telliott-io/front/pkg/projects"
 )
 
@@ -27,16 +28,22 @@ type cache struct {
 }
 
 func (l *loader) GetProjects(ctx context.Context) ([]projects.Project, error) {
+	span, _ := opentracing.StartSpanFromContext(ctx, "cachingloader/get-projects")
+	defer span.Finish()
+
 	l.mtx.Lock()
 	defer l.mtx.Unlock()
 
 	if l.cache == nil || l.cache.createdAt.Sub(time.Now()) > time.Second {
+		span.SetTag("cache-hit", false)
 		p, err := l.inner.GetProjects(ctx)
 		l.cache = &cache{
 			p:         p,
 			err:       err,
 			createdAt: time.Now(),
 		}
+	} else {
+		span.SetTag("cache-hit", true)
 	}
 	return l.cache.p, l.cache.err
 }
