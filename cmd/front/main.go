@@ -45,7 +45,7 @@ func setupOpenTracing() (io.Closer, error) {
 			Param: 1,
 		},
 		Reporter: &config.ReporterConfig{
-			LocalAgentHostPort: "jaeger-agent:6831",
+			LocalAgentHostPort: "jaeger-agent.monitoring.svc.cluster.local:6831",
 		},
 	}
 	tracer, closer, err := cfg.New("telliott-io/front", config.Logger(jaeger.StdLogger))
