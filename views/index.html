@@ -1,29 +1,72 @@
-<!-- based on https://www.codesmite.com/article/how-to-create-pure-css-hexagonal-grids -->
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Hexagonal Grid by Codin @ Codesmite.com</title>
-        <meta name="description" content="Hexagonal Grid by Codin @
-            Codesmite.com">
+        <title>telliott.io</title>
+        <meta name="description" content="Tom Elliott - Projects">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link
+            href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"
+            rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="styles/main.css">
         <link rel="stylesheet" type="text/css" href="styles/styles.css">
+        <link rel="stylesheet" type="text/css" href="styles/hexagon.css">
     </head>
     <body>
-        <ul id="grid" class="clear">
-            {{range .Items}}
-                <li>
-                    <div class="hexagon">
-                        <div class="content">
-                            <h3>{{ .Name }}</h3>
-                            <p>{{ .Description }}</p>
-                        </div>
+        <div class="container">
+            <div class="container clearfix">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <img class="site-logo" src="/assets/tom.jpg">
                     </div>
+                </div>
+                <div class="row">
+                    &nbsp;
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h1 class="text-muted">telliott.io</h1>
+                        <p>Software Engineer by day, hobbyist software engineer the rest of the time.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="header clearfix">
+                    <nav>
+                      <ul class="nav nav-pills pull-right">
+                        <li role="presentation"><a href="/">Projects</a></li>
+                        <li role="presentation"><a href="https://medium.com/average-coder">Blog - The Average Coder</a></li>
+                        <li role="presentation"><a href="https://github.com/theothertomelliott">GitHub</a></li>
+                        <li role="presentation"><a href="https://twitter.com/theotherelliott">Twitter</a></li>
+                      </ul>
+                    </nav>
+            </div>
+
+            <!-- based on https://www.codesmite.com/article/how-to-create-pure-css-hexagonal-grids -->
+            <ul id="grid" id="project-grid" class="clear">
+                {{range .Items}}
+                <li>
+                    <a href="{{ .URL }}">
+                        <div class="hexagon">
+                            {{ if .Image }}
+                                <img src="data:{{ .ImageMimeType }};base64,{{ .Image }}"/>
+                            {{ end }}
+                            <div class="content">
+                                <h3 class="name">{{ .Name }}</h3>
+                                <p class="description">{{ .Description }}</p>
+                            </div>
+                        </div>
+                    </a>
                 </li>
-            {{else}}
+                {{else}}
                 <div><strong>no rows</strong></div>
-            {{end}}
-        </ul>
+                {{end}}
+            </ul>
+        </div>
+        <script src="//code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="crossorigin="anonymous"></script>
+        <script async=""
+            src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     </body>
 </html>

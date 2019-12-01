@@ -1,7 +1,16 @@
 package kubernetesloader
 
 import (
+	"bytes"
 	"context"
+	"encoding/base64"
+	"log"
+	"mime"
+
+	"image"
+	_ "image/gif"
+	_ "image/jpeg"
+	_ "image/png"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
@@ -42,12 +51,23 @@ func (l *loader) GetProjects(ctx context.Context) ([]projects.Project, error) {
 	}
 	var out []projects.Project
 	for _, m := range configMaps.Items {
+
+		p := projects.Project{
+			Name:        m.Data["name"],
+			Description: m.Data["description"],
+			URL:         m.Data["url"],
+		}
+		if imageBytes, hasImage := m.BinaryData["image"]; hasImage {
+			p.Image = base64.StdEncoding.EncodeToString(imageBytes)
+			_, format, err := image.DecodeConfig(bytes.NewReader(imageBytes))
+			if err != nil {
+				log.Printf("Could not decode image format: %v", err)
+			}
+			p.ImageMimeType = mime.TypeByExtension("." + format)
+		}
 		out = append(
 			out,
-			projects.Project{
-				Name:        m.Data["name"],
-				Description: m.Data["description"],
-			},
+			p,
 		)
 	}
 

@@ -63,8 +63,8 @@ func setupOpenTracing() (io.Closer, error) {
 }
 
 func setupStaticServing() {
-	fs := http.FileServer(http.Dir("public/styles/"))
-	http.Handle("/styles/", http.StripPrefix("/styles/", fs))
+	http.Handle("/styles/", http.StripPrefix("/styles/", http.FileServer(http.Dir("public/styles/"))))
+	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("public/assets/"))))
 }
 
 func setupFaviconServing() {
