@@ -20,6 +20,6 @@ deploy:
 	kubectl apply -f deployment.yaml
 	kubectl apply -f ingress.yaml
 	# Trigger a rolling update
-	kubectl rollout restart deployment/front
+	kubectl rollout restart deployment/front --namespace front
 
 all: clean push deploy

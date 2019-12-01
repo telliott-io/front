@@ -3,6 +3,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: front
+  namespace: front
 spec:
   rules:
   - host: front.telliott.io

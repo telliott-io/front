@@ -2,6 +2,7 @@ kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
   name: front
+  namespace: front
   labels:
     app: front
 spec:
@@ -34,6 +35,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: front
+  namespace: front
 spec:
   type: NodePort
   selector:
