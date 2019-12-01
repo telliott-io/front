@@ -34,7 +34,7 @@ func (l *loader) GetProjects(ctx context.Context) ([]projects.Project, error) {
 	l.mtx.Lock()
 	defer l.mtx.Unlock()
 
-	if l.cache == nil || l.cache.createdAt.Sub(time.Now()) > time.Second {
+	if l.cache == nil || time.Since(l.cache.createdAt) > 5*time.Second {
 		span.SetTag("cache-hit", false)
 		p, err := l.inner.GetProjects(ctx)
 		l.cache = &cache{
