@@ -37,6 +37,9 @@ func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	span := tracer.StartSpan("serve_index")
 
 	span.SetTag("path", r.URL.Path)
+	span.SetTag("url", r.URL.String())
+	span.SetTag("referer", r.Referer())
+	span.SetTag("user-agent", r.UserAgent())
 
 	ctx := opentracing.ContextWithSpan(r.Context(), span)
 	defer span.Finish()
