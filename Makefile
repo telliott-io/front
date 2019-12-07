@@ -30,5 +30,4 @@ dashboard:
 	curl -X POST -H "Content-Type: application/json" -d @- \
 	http://admin:secret@grafana.telliott.io/api/dashboards/db
 
-
 all: clean push deploy
