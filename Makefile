@@ -22,4 +22,8 @@ deploy:
 	# Trigger a rolling update
 	kubectl rollout restart deployment/front --namespace front
 
+dashboard:
+	echo "{\"overwrite\":true,\"dashboard\":`jsonnet -J ../grafonnet-lib/ observability/dashboard.jsonnet`}" | curl -X POST -H "Content-Type: application/json" -d @- http://admin:secret@grafana.telliott.io/api/dashboards/db
+
+
 all: clean push deploy
