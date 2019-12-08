@@ -24,7 +24,7 @@ deploy:
 
 dashboard:
 	echo "{\"overwrite\":true,\"dashboard\":\
-	`jsonnet -J grafonnet-lib/ observability/dashboard.jsonnet`\
+	`jsonnet -J thirdparty/grafonnet-lib/ observability/dashboard.jsonnet`\
 	}" \
 	| \
 	curl -X POST -H "Content-Type: application/json" -d @- \
