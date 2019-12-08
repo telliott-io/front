@@ -6,7 +6,7 @@ metadata:
   namespace: front
 spec:
   rules:
-  - host: front.telliott.io
+  - host: telliott.io
     http:
       paths:
       - path: /
