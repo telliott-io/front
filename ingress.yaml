@@ -4,6 +4,8 @@ kind: Ingress
 metadata:
   name: front
   namespace: front
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
   - host: telliott.io
