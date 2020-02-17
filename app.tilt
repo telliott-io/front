@@ -1,4 +1,4 @@
-def front(working_dir):
+def front(working_dir, resource_deps=[]):
   k8s_yaml('deployment.yaml')
   k8s_yaml('namespace.yaml')
   k8s_yaml('rbac.yaml')
@@ -26,4 +26,4 @@ def front(working_dir):
     tag="latest"
   )
 
-  k8s_resource('front', port_forwards='8080:80')
+  k8s_resource('front', port_forwards='8080:80', resource_deps=resource_deps)
