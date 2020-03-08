@@ -15,11 +15,8 @@ push: build
 	docker push telliottio/front:latest
 
 deploy:
-	kubectl apply -f namespace.yaml
-	kubectl apply -f rbac.yaml
-	kubectl apply -f deployment.yaml
-	kubectl apply -f ingress.yaml
-	# Trigger a rolling update
+	./contextconfigmap.sh
+	kubectl apply -k .
 	kubectl rollout restart deployment/front --namespace front
 
 dashboard:

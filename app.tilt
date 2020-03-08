@@ -1,7 +1,5 @@
 def front(working_dir, resource_deps=[]):
-  k8s_yaml('deployment.yaml')
-  k8s_yaml('namespace.yaml')
-  k8s_yaml('rbac.yaml')
+  k8s_yaml(kustomize('.'))
 
   # Provide some sample projects for testing
   projectFiles = listdir("testdata/projects")

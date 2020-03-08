@@ -4,6 +4,8 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
+	"strings"
 
 	"github.com/opentracing/opentracing-go"
 	"github.com/uber/jaeger-client-go"
@@ -79,7 +81,10 @@ func setupDynamicServing() {
 		panic(err)
 	}
 
-	s, err := server.New(cachingloader.New(loader))
+	s, err := server.New(
+		cachingloader.New(loader),
+		strings.TrimSpace(os.Getenv("ENV")),
+	)
 	if err != nil {
 		panic(err)
 	}
