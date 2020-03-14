@@ -16,7 +16,7 @@ push: build
 
 deploy:
 	./contextconfigmap.sh
-	kubectl apply -k .
+	kubectl apply -k deployment
 	kubectl rollout restart deployment/front --namespace front
 
 dashboard:
