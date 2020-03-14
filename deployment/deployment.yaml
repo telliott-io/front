@@ -31,7 +31,7 @@ spec:
             configMapKeyRef:
               name: kubeenv
               key: context
-        image: telliottio/front:latest
+        image: front
         imagePullPolicy: Always
         ports:
         - containerPort: 80

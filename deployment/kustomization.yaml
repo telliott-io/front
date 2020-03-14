@@ -6,7 +6,11 @@ resources:
 - rbac.yaml
 - ingress.yaml
 configMapGenerator:
-- name: kubeenv
-  files:
+- files:
   - context=kubecontext.txt
+  name: kubeenv
   namespace: front
+images:
+- name: front
+  newName: telliottio/front
+  newTag: latest
