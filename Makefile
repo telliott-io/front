@@ -15,7 +15,6 @@ push: build
 	docker push telliottio/front:latest
 
 deploy:
-	./contextconfigmap.sh
 	kubectl apply -k deployment
 	kubectl rollout restart deployment/front --namespace front
 
