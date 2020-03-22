@@ -62,7 +62,8 @@ jobs:
             cd build/deployment
             git config --global user.email "action@github.com"
             git config --global user.name "GitHub Action"
-            git commit -m "${{ steps.tagName.outputs.tag }}" -a
+            git add -A
+            git commit -m "${{ steps.tagName.outputs.tag }}"
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
