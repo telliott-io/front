@@ -13,4 +13,4 @@ configMapGenerator:
 images:
 - name: front
   newName: telliottio/front
-  newTag: v0.1.4
+  newTag: latest
