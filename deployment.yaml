@@ -1,0 +1,51 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: front
+  namespace: front
+  labels:
+    app: front
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: front
+  template:
+    metadata:
+      labels:
+        app: front
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "80"
+    spec:
+      serviceAccountName: projectlister
+      containers:
+      - name: front
+        env:
+        #   - name: JAEGER_AGENT_HOST
+        #     value: "jaeger-agent"
+        #   - name: JAEGER_AGENT_PORT
+        #     value: "6831"
+        - name: ENV
+          valueFrom:
+            configMapKeyRef:
+              name: kubeenv
+              key: context
+        image: front
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: front
+  namespace: front
+spec:
+  type: NodePort
+  selector:
+    app: front
+  ports:
+  - name: http
+    targetPort: 80
+    port: 80
