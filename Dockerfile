@@ -1,4 +1,4 @@
-FROM alpine:3.7
+FROM scratch
 COPY . /app
 WORKDIR /app
-ENTRYPOINT /app/front
+CMD ["/app/front"]
