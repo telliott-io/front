@@ -54,8 +54,8 @@ jobs:
       - name: Update deployment content
         run: | 
             cd build/deployment
-            git rm -rf .
-            cp -r ../../deployment/* .
+            rm -rf *
+            cp -a ../../deployment/. .
             sed 's/newTag: latest/newTag: ${{ steps.tagName.outputs.tag }}/' ../../deployment/kustomization.yaml > kustomization.yaml
       - name: Commit
         run: |
