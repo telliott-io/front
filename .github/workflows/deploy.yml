@@ -17,11 +17,10 @@ jobs:
       - uses: olegtarasov/get-tag@v2
         id: tagName
       - name: Static files
-        uses: fnkr/github-action-git-bash@v1
         run: |
-          mkdir -p build
-          cp -r public build/public 
-          cp -r views build/views
+            mkdir -p build
+            cp -r public build/public 
+            cp -r views build/views
       - name: run
         uses: cedrickring/golang-action@1.5.1
         with:
