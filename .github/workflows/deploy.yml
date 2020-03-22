@@ -16,14 +16,16 @@ jobs:
           fetch-depth: 1
       - uses: olegtarasov/get-tag@v2
         id: tagName
+      - name: Static files
+        uses: fnkr/github-action-git-bash@v1
+        run: |
+          mkdir -p build
+          cp -r public build/public 
+          cp -r views build/views
       - name: run
         uses: cedrickring/golang-action@1.5.1
         with:
           args: GOOS=linux GOARCH=amd64 go build -o build/front ./cmd/front
-      - name: Static files
-        run: |
-          cp -r public build/public 
-          cp -r views build/views
       - name: Build & Push Container
         uses: opspresso/action-docker@master
         with:
