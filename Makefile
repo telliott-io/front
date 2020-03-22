@@ -9,10 +9,7 @@ build:
 	- rm -rf build/views
 	cp -r public build/public
 	cp -r views build/views
-	docker build -t telliottio/front:latest ./build -f Dockerfile
-
-push: build
-	docker push telliottio/front:latest
+	docker build -t telliottio/front:tilt ./build -f Dockerfile
 
 deploy:
 	kubectl apply -k deployment

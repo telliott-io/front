@@ -21,7 +21,7 @@ def front(working_dir, resource_deps=[]):
       'Makefile',
       'go.mod'
     ],
-    tag="latest"
+    tag="tilt"
   )
 
   k8s_resource('front', port_forwards='8080:80', resource_deps=resource_deps)
