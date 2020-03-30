@@ -43,7 +43,7 @@
                     <a href="{{ .URL }}">
                         <div class="hexagon">
                             {{ if .Image }}
-                                <img src="data:{{ .ImageMimeType }};base64,{{ .Image }}"/>
+                                <img src="/image/{{ .Name }}"/>
                             {{ end }}
                             <div class="content">
                                 <h3 class="name">{{ .Name }}</h3>
