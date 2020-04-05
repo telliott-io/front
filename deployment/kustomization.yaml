@@ -5,6 +5,7 @@ resources:
 - namespace.yaml
 - rbac.yaml
 - ingress.yaml
+- cloudprober.yaml
 configMapGenerator:
 - files:
   - context=kubecontext.txt

@@ -24,7 +24,9 @@ func main() {
 	if err != nil {
 		log.Println("Opentracing setup failed: ", err)
 	}
-	defer closer.Close()
+	if closer != nil {
+		defer closer.Close()
+	}
 
 	setupMetrics()
 
