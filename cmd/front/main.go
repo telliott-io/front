@@ -15,8 +15,6 @@ import (
 	"github.com/telliott-io/front/pkg/projects/kubernetesloader"
 
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-
-	"github.com/hashicorp/consul/api"
 )
 
 func main() {
@@ -83,30 +81,8 @@ func setupDynamicServing() {
 		panic(err)
 	}
 
-	// Get a new Consul client
-	var environmentName = "unknown"
-	cfg := api.DefaultConfig()
-	cfg.Address = "consul.consul.svc.cluster.local:8500"
-	client, err := api.NewClient(cfg)
-	if err == nil {
-		// Get a handle to the KV API
-		kv := client.KV()
-
-		// Lookup the pair
-		pair, _, err := kv.Get("deployment/name", nil)
-		if err == nil {
-			environmentName = string(pair.Value)
-		} else {
-			log.Println("Could not read KV: ", err)
-		}
-	} else {
-		log.Println("Could not connect to consul: ", err)
-	}
-	log.Println("Environment name: ", environmentName)
-
 	s, err := server.New(
 		cachingloader.New(loader),
-		environmentName,
 	)
 	if err != nil {
 		panic(err)

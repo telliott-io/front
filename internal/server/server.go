@@ -14,19 +14,17 @@ import (
 	"github.com/telliott-io/front/pkg/projects"
 )
 
+// New creates a server using the provided project list loader
 func New(
 	loader projects.Loader,
-	env string,
 ) (http.Handler, error) {
 	return &server{
 		loader: loader,
-		env:    env,
 	}, nil
 }
 
 type server struct {
 	loader projects.Loader
-	env    string
 }
 
 var (
@@ -81,10 +79,8 @@ func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	renderPageSpan, _ := opentracing.StartSpanFromContext(ctx, "render-page")
 	data := struct {
 		Items []projects.Project
-		Env   string
 	}{
 		Items: p,
-		Env:   s.env,
 	}
 
 	err = t.Execute(w, data)
