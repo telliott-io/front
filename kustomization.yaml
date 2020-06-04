@@ -5,12 +5,8 @@ resources:
 - namespace.yaml
 - rbac.yaml
 - ingress.yaml
-configMapGenerator:
-- files:
-  - context=kubecontext.txt
-  name: kubeenv
-  namespace: front
+- cloudprober.yaml
 images:
 - name: front
   newName: telliottio/front
-  newTag: v0.1.6
+  newTag: v0.1.7
