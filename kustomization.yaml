@@ -8,4 +8,4 @@ resources:
 images:
 - name: front
   newName: telliottio/front
-  newTag: v0.1.12
+  newTag: v0.1.13
