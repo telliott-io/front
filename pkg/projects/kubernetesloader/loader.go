@@ -51,9 +51,9 @@ func (l *loader) GetProjects(ctx context.Context) ([]projects.Project, error) {
 	}
 	var out []projects.Project
 	for _, m := range configMaps.Items {
-
 		p := projects.Project{
 			Name:        m.Data["name"],
+			Slug:        m.Name,
 			Description: m.Data["description"],
 			URL:         m.Data["url"],
 		}
@@ -61,7 +61,8 @@ func (l *loader) GetProjects(ctx context.Context) ([]projects.Project, error) {
 			p.Image = base64.StdEncoding.EncodeToString(imageBytes)
 			_, format, err := image.DecodeConfig(bytes.NewReader(imageBytes))
 			if err != nil {
-				log.Printf("Could not decode image format: %v", err)
+				log.Printf("[%v] Could not decode image format: %v", m.Name, err)
+				format = "jpg"
 			}
 			p.ImageMimeType = mime.TypeByExtension("." + format)
 		}

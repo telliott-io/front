@@ -2,9 +2,7 @@ def front(working_dir, resource_deps=[]):
   k8s_yaml(kustomize('deployment/.'))
 
   # Provide some sample projects for testing
-  projectFiles = listdir("testdata/projects")
-  for project in projectFiles:
-    k8s_yaml(project)
+  k8s_yaml(kustomize('testdata/projects/.'))
 
   custom_build(
     'telliottio/front',
@@ -25,4 +23,3 @@ def front(working_dir, resource_deps=[]):
   )
 
   k8s_resource('front', port_forwards='8080:80', resource_deps=resource_deps)
-  k8s_resource('cloudprober', port_forwards='9313:9313', resource_deps=resource_deps)

@@ -111,14 +111,16 @@ func (s *server) serveImage(w http.ResponseWriter, r *http.Request) {
 
 	renderImageSpan, _ := opentracing.StartSpanFromContext(ctx, "render-image")
 	for _, project := range p {
-		if fmt.Sprintf("/image/%v", project.Name) == r.URL.Path {
+		if fmt.Sprintf("/image/%v", project.Slug) == r.URL.Path {
 			img, err := base64.StdEncoding.DecodeString(project.Image)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 			w.Header().Set("Content-Type", project.ImageMimeType)
+			fmt.Println(project.Slug, len(img))
 			w.Write(img)
+			return
 		}
 	}
 	renderImageSpan.Finish()
